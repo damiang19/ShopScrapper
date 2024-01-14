@@ -1,6 +1,5 @@
-package pl.dgorecki.shop_scrapper.dto;
+package pl.dgorecki.shop_scrapper.service.dto;
 
-import jakarta.persistence.Column;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -11,9 +10,10 @@ import java.time.Instant;
 
 @Getter
 @Setter
-@ToString
+@ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
 public class TrackedProductArchiveDTO extends TrackedProductDTO{
-    private TrackedProduct trackedProduct;
+    private Long id;
     private Instant date;
+    private Long trackedProductId;
 }
