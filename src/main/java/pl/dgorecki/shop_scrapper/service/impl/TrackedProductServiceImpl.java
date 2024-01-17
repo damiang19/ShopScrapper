@@ -23,13 +23,4 @@ public class TrackedProductServiceImpl implements TrackedProductService {
         return null;
     }
 
-    private TrackedProductDTO fromXcomTrackedProduct(){
-        return null;
-    }
-
-    private TrackedProductDTO fromMoreleTrackedProduct(){
-        return null;
-    }
-
-
 }
