@@ -14,10 +14,15 @@ public interface TrackedProductArchiveMapper {
 
     @Mapping(source = "trackedProductId", target = "trackedProduct.id")
     TrackedProductArchive toEntity(TrackedProductArchiveDTO trackedProductArchiveDTO);
+
     List<TrackedProductArchiveDTO> toDto(List<TrackedProductArchive> trackedProductArchives);
+
     List<TrackedProductArchive> toEntity(List<TrackedProductArchiveDTO> trackedProductArchiveDTOS);
-    default TrackedProductArchive map(Long id){
-        if(id == null){return null;}
+
+    default TrackedProductArchive map(Long id) {
+        if (id == null) {
+            return null;
+        }
         TrackedProductArchive trackedProductArchive = new TrackedProductArchive();
         trackedProductArchive.setId(id);
         return trackedProductArchive;

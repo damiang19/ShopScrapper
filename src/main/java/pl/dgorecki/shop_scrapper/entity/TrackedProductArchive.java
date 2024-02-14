@@ -5,7 +5,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import pl.dgorecki.shop_scrapper.Shop;
+
 import java.math.BigDecimal;
 import java.time.Instant;
 

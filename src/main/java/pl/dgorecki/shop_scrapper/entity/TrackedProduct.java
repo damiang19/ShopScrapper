@@ -5,7 +5,6 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import pl.dgorecki.shop_scrapper.Shop;
 
 import java.math.BigDecimal;
 
@@ -30,9 +29,8 @@ public class TrackedProduct {
     @Column(name = "nazwa_produktu")
     private String productName;
 
-    @Enumerated(EnumType.STRING)
+    @ManyToOne
+    @JoinColumn(name = "sklep_id")
     private Shop shop;
-
-
 
 }

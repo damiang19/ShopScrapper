@@ -4,7 +4,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import pl.dgorecki.shop_scrapper.Shop;
+
 import java.math.BigDecimal;
 
 @Getter
@@ -21,5 +21,7 @@ public class TrackedProductDTO {
 
     private String productName;
 
-    private Shop shop;
+    private Long shopId;
+
+    private String shopName;
 }
