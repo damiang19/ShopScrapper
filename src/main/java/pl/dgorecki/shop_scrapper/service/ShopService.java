@@ -5,8 +5,8 @@ import pl.dgorecki.shop_scrapper.service.dto.ShopDTO;
 public interface ShopService {
     ShopDTO save(ShopDTO shopDTO);
 
-    ShopDTO getByName(String shopName);
+    ShopDTO getByUrl(String url);
 
-    Boolean isExistByName(String name);
+    String validateShopUrl(String url);
 
 }

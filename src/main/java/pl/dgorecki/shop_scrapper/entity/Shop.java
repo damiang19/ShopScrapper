@@ -22,5 +22,7 @@ public class Shop {
 
     private String priceId;
 
+    private String shopUrl;
+
 
 }

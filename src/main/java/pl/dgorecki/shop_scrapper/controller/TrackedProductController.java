@@ -8,7 +8,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import pl.dgorecki.shop_scrapper.controller.payloads.RegisterTrackedProduct;
 import pl.dgorecki.shop_scrapper.service.TrackedProductService;
 import pl.dgorecki.shop_scrapper.service.dto.TrackedProductDTO;
 
@@ -21,9 +20,9 @@ public class TrackedProductController {
     private final Logger log = LoggerFactory.getLogger(getClass());
 
     @PostMapping("/save")
-    public ResponseEntity<TrackedProductDTO> createTrackedProduct(@RequestBody RegisterTrackedProduct registerTrackedProduct) {
+    public ResponseEntity<TrackedProductDTO> createTrackedProduct(@RequestBody String url) {
         log.debug("Request to create new TrackedProduct");
-//        TrackedProductDTO trackedProductDTO = trackedProductService.save();
+//        TrackedProductDTO trackedProductDTO = trackedProductService.save(u);
         return ResponseEntity.status(HttpStatus.CREATED).body(null);
     }
 

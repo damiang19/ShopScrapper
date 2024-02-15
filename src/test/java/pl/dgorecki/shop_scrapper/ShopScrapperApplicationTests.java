@@ -9,6 +9,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import pl.dgorecki.shop_scrapper.service.dto.TrackedProductArchiveDTO;
 
 import java.io.IOException;
+import java.util.Optional;
+import java.util.regex.MatchResult;
+import java.util.regex.Pattern;
 
 @SpringBootTest
 class ShopScrapperApplicationTests {
@@ -20,10 +23,6 @@ class ShopScrapperApplicationTests {
 		String title = doc.getElementsByTag("h1").text();
 		TrackedProductArchiveDTO trackedProductArchiveDTO = new TrackedProductArchiveDTO();
 		TrackedProductArchiveDTO updated = new TrackedProductArchiveDTO();
-
-		System.out.println(trackedProductArchiveDTO);
-			System.out.println(newsHeadlines);
-			System.out.println(title);
 
 	}
 
