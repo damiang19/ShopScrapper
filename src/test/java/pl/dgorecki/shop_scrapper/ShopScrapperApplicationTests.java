@@ -24,6 +24,13 @@ class ShopScrapperApplicationTests {
 		TrackedProductArchiveDTO trackedProductArchiveDTO = new TrackedProductArchiveDTO();
 		TrackedProductArchiveDTO updated = new TrackedProductArchiveDTO();
 
+		String url = "eeeehttps://stackoverflow.com/questions/15446689/what-is-the-use-of-system-in-read";
+			Optional<String> t = Pattern.compile("(https?:\\/\\/(?:www\\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\\.[a-zA-Z]{2,}|(?:www\\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\\.[a-zA-Z]{2,})")
+					.(url)
+					.results()
+					.map(MatchResult::group)
+					.findFirst();
+			System.out.println(t.get());
 	}
 
 }
