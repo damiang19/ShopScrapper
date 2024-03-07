@@ -1,6 +1,7 @@
 package pl.dgorecki.shop_scrapper.controller;
 
 import lombok.AllArgsConstructor;
+import lombok.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -20,10 +21,10 @@ public class TrackedProductController {
     private final Logger log = LoggerFactory.getLogger(getClass());
 
     @PostMapping("/save")
-    public ResponseEntity<TrackedProductDTO> createTrackedProduct(@RequestBody String url) {
+    public ResponseEntity<TrackedProductDTO> createTrackedProduct(@RequestBody @NonNull String url) {
         log.debug("Request to create new TrackedProduct");
-//        TrackedProductDTO trackedProductDTO = trackedProductService.save(u);
-        return ResponseEntity.status(HttpStatus.CREATED).body(null);
+        TrackedProductDTO trackedProductDTO =  trackedProductService.addNewProductToDatabase(url);
+        return ResponseEntity.status(HttpStatus.CREATED).body(trackedProductDTO);
     }
 
 }
