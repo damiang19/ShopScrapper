@@ -16,11 +16,13 @@ public class Shop {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private String productNameHtmlClass;
+
+    private String priceHtmlClass;
+
     private String shopName;
 
-    private String productNameId;
-
-    private String priceId;
+    private String shopUrl;
 
 
 }

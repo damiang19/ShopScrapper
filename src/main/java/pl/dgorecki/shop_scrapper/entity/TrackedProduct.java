@@ -20,7 +20,7 @@ public class TrackedProduct {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "link_do_sklepu")
+    @Column(name = "link_do_produktu")
     private String url;
 
     @Column(name = "cena")

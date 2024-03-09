@@ -34,6 +34,7 @@ public class TrackedProductArchive {
     @Column(name = "nazwa_produktu")
     private String productName;
 
-    @Enumerated(EnumType.STRING)
+    @ManyToOne
+    @JoinColumn(name = "sklep_id")
     private Shop shop;
 }
