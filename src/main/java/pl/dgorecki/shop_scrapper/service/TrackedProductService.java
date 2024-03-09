@@ -8,5 +8,4 @@ public interface TrackedProductService {
 
     TrackedProductDTO addNewProductToDatabase(String url);
 
-
 }

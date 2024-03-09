@@ -1,9 +1,14 @@
 package pl.dgorecki.shop_scrapper.enums;
 
+import lombok.Getter;
+
+@Getter
 public enum UrlRegexp {
     SHOP("(https?:\\/\\/(?:www\\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\\.[a-zA-Z]{2,}" +
             "|(?:www\\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\\.[a-zA-Z]{2,})") ,
-    URL("");
+    URL("(https?:\\/\\/(?:www\\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\\." +
+            "[^\\s]{2,}|www\\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\\.[^\\s]{2,}|https?:\\/\\/(?:www\\.|" +
+            "(?!www))[a-zA-Z0-9]+\\.[^\\s]{2,}|www\\.[a-zA-Z0-9]+\\.[^\\s]{2,})\n");
 
     private final String value;
 
@@ -11,7 +16,4 @@ public enum UrlRegexp {
         this.value = value;
     }
 
-    public String getValue() {
-        return value;
-    }
 }

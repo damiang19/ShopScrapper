@@ -7,6 +7,4 @@ public interface ShopService {
 
     ShopDTO getByUrl(String url);
 
-    String validateUrlFormat(String url);
-
 }
