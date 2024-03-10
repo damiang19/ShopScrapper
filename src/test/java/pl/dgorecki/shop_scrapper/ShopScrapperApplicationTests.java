@@ -26,13 +26,13 @@ class ShopScrapperApplicationTests {
 //		String newsHeadlines = doc.getElementById("product_price_brutto").attr("data-price");
 //		String title = doc.getElementsByTag("h1").text();
 
-		// XKOM
-		String xkomPrize = doc.getElementsByClass("sc-n4n86h-1 hYfBFq").text();
-		// MORELE
-		String newsHeadlines = doc.getElementById("product-price").("data-price");
-
-		TrackedProductArchiveDTO trackedProductArchiveDTO = new TrackedProductArchiveDTO();
-		TrackedProductArchiveDTO updated = new TrackedProductArchiveDTO();
+//		// XKOM
+//		String xkomPrize = doc.getElementsByClass("sc-n4n86h-1 hYfBFq").text();
+//		// MORELE
+//		String newsHeadlines = doc.getElementById("product-price").("data-price");
+//
+//		TrackedProductArchiveDTO trackedProductArchiveDTO = new TrackedProductArchiveDTO();
+//		TrackedProductArchiveDTO updated = new TrackedProductArchiveDTO();
 
 
 

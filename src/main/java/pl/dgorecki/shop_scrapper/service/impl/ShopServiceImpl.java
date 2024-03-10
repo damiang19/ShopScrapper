@@ -3,6 +3,8 @@ package pl.dgorecki.shop_scrapper.service.impl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import pl.dgorecki.shop_scrapper.controller.payload.ShopData;
+import pl.dgorecki.shop_scrapper.entity.Shop;
 import pl.dgorecki.shop_scrapper.repository.ShopRepository;
 import pl.dgorecki.shop_scrapper.service.ShopService;
 import pl.dgorecki.shop_scrapper.service.UrlValidatorService;
@@ -21,8 +23,13 @@ public class ShopServiceImpl implements ShopService {
 
     @Override
     @Transactional
-    public ShopDTO save(ShopDTO shopDTO) {
-        return null;
+    public ShopDTO save(ShopData shopData) {
+        Shop shop = new Shop();
+        shop.setShopName(shopData.shopName());
+        shop.setShopUrl(shopData.shopUrl());
+        shop.setPriceHtmlClass(shopData.priceHtmlClass());
+        shop.setProductNameHtmlClass(shopData.productNameHtmlClass());
+        return shopMapper.toDto(shop);
     }
 
     @Override
