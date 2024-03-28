@@ -1,13 +1,12 @@
 spring:
+  jpa:
+    hibernate: ddl-auto=create
+  datasource:
+    driver-class-name=org:
+      testcontainers:
+        jdbc: ContainerDatabaseDriver
   config:
     activate:
       on-profile: test
-  mongodb:
-    embedded:
-      database: test
-      version: 3.4.11
-      username: user
-      password: user
-      authentication-database: admin
-      port: 0
+
 jwt.secret : haha

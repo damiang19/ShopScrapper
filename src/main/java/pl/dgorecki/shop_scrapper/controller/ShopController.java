@@ -13,7 +13,7 @@ import pl.dgorecki.shop_scrapper.controller.payload.ShopData;
 import pl.dgorecki.shop_scrapper.service.ShopService;
 import pl.dgorecki.shop_scrapper.service.dto.ShopDTO;
 
-@RestController("/shop")
+@RestController
 @RequiredArgsConstructor
 public class ShopController {
 
@@ -21,7 +21,7 @@ public class ShopController {
     private final Logger log = LoggerFactory.getLogger(getClass());
 
 
-    @PostMapping
+    @PostMapping("/shop")
     public ResponseEntity<ShopDTO> addNewShop(@RequestBody @Valid ShopData shopData) {
         log.debug("REST request to save new shop : {}", shopData);
         ShopDTO persistedShop = shopService.save(shopData);
