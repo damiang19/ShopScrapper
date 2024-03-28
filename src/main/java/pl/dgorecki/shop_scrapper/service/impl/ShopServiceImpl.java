@@ -29,7 +29,7 @@ public class ShopServiceImpl implements ShopService {
         shop.setShopUrl(shopData.shopUrl());
         shop.setPriceHtmlClass(shopData.priceHtmlClass());
         shop.setProductNameHtmlClass(shopData.productNameHtmlClass());
-        return shopMapper.toDto(shop);
+        return shopMapper.toDto(shopRepository.save(shop));
     }
 
     @Override

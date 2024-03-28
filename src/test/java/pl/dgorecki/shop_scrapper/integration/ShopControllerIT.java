@@ -6,13 +6,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.reactive.AutoConfigureWebTestClient;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpHeaders;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import pl.dgorecki.shop_scrapper.ShopScrapperApplication;
 import pl.dgorecki.shop_scrapper.controller.payload.ShopData;
+import pl.dgorecki.shop_scrapper.entity.Shop;
 import pl.dgorecki.shop_scrapper.repository.ShopRepository;
-import pl.dgorecki.shop_scrapper.service.dto.ShopDTO;
+import static org.assertj.core.api.Assertions.*;
+import java.util.Optional;
 
 import static org.springframework.util.MimeTypeUtils.APPLICATION_JSON_VALUE;
+
+@ActiveProfiles("test")
 @AutoConfigureWebTestClient
 @SpringBootTest(classes = ShopScrapperApplication.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class ShopControllerIT {
@@ -23,28 +28,25 @@ public class ShopControllerIT {
     @Autowired
     private ShopRepository shopRepository;
 
-    private ShopData shopData;
 
     @BeforeEach
     public void init() {
-        shopData = createPayload();
     }
 
     @Test
     void shouldCreateNewCustomers() {
+        ShopData payload = new ShopData("name", "price", "morele.net", "morele.net");
         this.webTestClient
                 .post()
                 .uri("/shop")
-                .bodyValue()
+                .bodyValue(payload)
                 .header(HttpHeaders.CONTENT_TYPE, APPLICATION_JSON_VALUE)
                 .exchange()
                 .expectStatus()
                 .isCreated();
+         Shop persistedShop =  shopRepository.findByShopUrl("morele.net").orElse(null);
+         assertThat(persistedShop).isNotNull();
+
     }
 
-
-
-    private ShopData createPayload() {
-        return new ShopData("name", "price", "morele.net", "morele.net");
-    }
 }
