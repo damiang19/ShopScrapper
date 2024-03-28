@@ -13,3 +13,4 @@ spring:
     properties:
       hibernate.dialect: org.hibernate.dialect.PostgreSQLDialect
   server.error.include-message: always
+server.error.include-message: always

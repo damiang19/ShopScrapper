@@ -13,7 +13,6 @@ import pl.dgorecki.shop_scrapper.controller.payload.ShopData;
 import pl.dgorecki.shop_scrapper.entity.Shop;
 import pl.dgorecki.shop_scrapper.repository.ShopRepository;
 import static org.assertj.core.api.Assertions.*;
-import java.util.Optional;
 
 import static org.springframework.util.MimeTypeUtils.APPLICATION_JSON_VALUE;
 

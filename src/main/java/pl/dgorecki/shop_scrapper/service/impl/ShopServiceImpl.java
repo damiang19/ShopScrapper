@@ -26,7 +26,7 @@ public class ShopServiceImpl implements ShopService {
     public ShopDTO save(ShopData shopData) {
         Shop shop = new Shop();
         shop.setShopName(shopData.shopName());
-        shop.setShopUrl(shopData.shopUrl());
+        shop.setShopUrl(urlValidatorService.getBaseShopUrl(shopData.shopUrl()));
         shop.setPriceHtmlClass(shopData.priceHtmlClass());
         shop.setProductNameHtmlClass(shopData.productNameHtmlClass());
         return shopMapper.toDto(shopRepository.save(shop));
