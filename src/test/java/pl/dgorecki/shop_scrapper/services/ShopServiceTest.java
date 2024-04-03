@@ -11,15 +11,20 @@ import pl.dgorecki.shop_scrapper.entity.Shop;
 import pl.dgorecki.shop_scrapper.repository.ShopRepository;
 import pl.dgorecki.shop_scrapper.service.dto.ShopDTO;
 import pl.dgorecki.shop_scrapper.service.impl.ShopServiceImpl;
+import pl.dgorecki.shop_scrapper.service.impl.UrlValidatorServiceImpl;
 import pl.dgorecki.shop_scrapper.service.mapper.ShopMapper;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.*;
 
 @SpringBootTest(classes = ShopScrapperApplication.class)
 public class ShopServiceTest {
     @Mock
     private ShopRepository shopRepository;
+
+    @Mock
+    private UrlValidatorServiceImpl urlValidatorService;
 
     @Mock
     ShopMapper shopMapper;
@@ -29,8 +34,9 @@ public class ShopServiceTest {
 
     @Test
     void findAll_should_return_student_list() {
+        when(urlValidatorService.getBaseShopUrl(anyString())).thenReturn("http://");
         when(shopMapper.toDto(any(Shop.class))).thenReturn(new ShopDTO());
         when(shopRepository.save(any(Shop.class))).thenReturn(new Shop());
-        ShopDTO persist = shopService.save(new ShopData("tt","tt","tt", "tt"));
+        ShopDTO persist = shopService.save(new ShopData("tt", "tt", "tt", "tt"));
     }
 }

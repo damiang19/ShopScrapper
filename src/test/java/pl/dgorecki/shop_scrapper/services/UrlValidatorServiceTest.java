@@ -31,8 +31,9 @@ public class UrlValidatorServiceTest {
 
     @Test
     void shouldExtractLinkToProduct() {
-        String url = urlValidatorService.validateUrlFormat("https://www.morele.net/plyta-glowna-asrock-b760-pro-rs-12599415/<script>");
+        String url = urlValidatorService.validateUrlFormat("testwebsitestringhttps://www.morele.net/plyta-glowna-asrock-b760-pro-rs-12599415/");
         assertThat(url).isEqualTo("https://www.morele.net/plyta-glowna-asrock-b760-pro-rs-12599415/");
     }
 }
+
 
