@@ -3,6 +3,8 @@ package pl.dgorecki.shop_scrapper.service.impl;
 import lombok.RequiredArgsConstructor;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import pl.dgorecki.shop_scrapper.service.ScrapperService;
 import pl.dgorecki.shop_scrapper.service.dto.ScrappedProductData;
@@ -14,6 +16,8 @@ import java.math.BigDecimal;
 @Service
 @RequiredArgsConstructor
 public class ScrapperServiceImpl implements ScrapperService {
+
+    private final Logger log = LoggerFactory.getLogger(getClass());
 
     @Override
     public ScrappedProductData scrapActualProductPrice(ShopDTO shopDTO, String url) {

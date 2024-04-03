@@ -1,6 +1,8 @@
 package pl.dgorecki.shop_scrapper.service.impl;
 
 import lombok.AllArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import pl.dgorecki.shop_scrapper.entity.TrackedProductArchive;
 import pl.dgorecki.shop_scrapper.repository.TrackedProductArchiveRepository;
@@ -17,6 +19,7 @@ public class TrackedProductArchiveServiceImpl implements TrackedProductArchiveSe
 
     private final TrackedProductArchiveRepository trackedProductArchiveRepository;
     private final TrackedProductArchiveMapper trackedProductArchiveMapper;
+    private final Logger log = LoggerFactory.getLogger(getClass());
 
     @Override
     public TrackedProductArchiveDTO save(TrackedProductDTO trackedProductDTO) {
