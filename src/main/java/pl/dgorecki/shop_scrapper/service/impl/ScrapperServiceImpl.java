@@ -3,6 +3,7 @@ package pl.dgorecki.shop_scrapper.service.impl;
 import lombok.RequiredArgsConstructor;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.jsoup.parser.Parser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -28,7 +29,8 @@ public class ScrapperServiceImpl implements ScrapperService {
     @Override
     public Document connectToTrackedProductSite(String url) {
         try {
-            return Jsoup.connect(url).userAgent("Mozilla/5.0").get();
+            return Jsoup.connect(url).userAgent("Mozilla/5.0").ignoreContentType(true)
+                    .parser(Parser.xmlParser()).get();
         } catch (IOException connectionException) {
             throw new RuntimeException("Error - cannot connect with url : " + url);
         }
@@ -37,7 +39,7 @@ public class ScrapperServiceImpl implements ScrapperService {
     @Override
     public ScrappedProductData downloadProductInfo(Document loadedPage, ShopDTO shopDTO) {
         String productName = loadedPage.getElementsByClass(shopDTO.getProductNameHtmlClass()).text();
-        BigDecimal productPrice = new BigDecimal(loadedPage.getElementsByClass(shopDTO.getPriceHtmlClass()).text());
+        BigDecimal productPrice = new BigDecimal(loadedPage.getElementsByClass(shopDTO.getPriceHtmlClass()).attr("content"));
         return new ScrappedProductData(productName, productPrice);
     }
 }
