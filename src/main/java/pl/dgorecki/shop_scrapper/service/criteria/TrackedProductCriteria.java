@@ -7,6 +7,7 @@ import lombok.Setter;
 @Setter
 public class TrackedProductCriteria {
     private String productNameStartsWith;
-
+// TODO : zrobic obiekt do endpointu zapisujacego produkt
+    // TODO : IMPLEMENTACJA WCZYTYWANIA DANYCH DLA KAZDEGO SKLEPU : CENA ITD
 
 }
