@@ -1,5 +1,7 @@
 package pl.dgorecki.shop_scrapper.service.impl;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import pl.dgorecki.shop_scrapper.enums.UrlRegexp;
 import pl.dgorecki.shop_scrapper.service.UrlValidatorService;
@@ -11,6 +13,8 @@ import java.util.regex.Pattern;
 
 @Service
 public class UrlValidatorServiceImpl implements UrlValidatorService {
+
+    private final Logger log = LoggerFactory.getLogger(getClass());
 
     @Override
     public String validateUrlFormat(String url) {

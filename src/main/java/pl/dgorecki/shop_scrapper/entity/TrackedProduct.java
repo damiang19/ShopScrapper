@@ -13,24 +13,25 @@ import java.math.BigDecimal;
 @ToString
 @EqualsAndHashCode
 @Entity
-@Table(name = "sledzony_produkt")
+@Table(name = "tracked_product")
 public class TrackedProduct {
 
     @Id
+    @Column(name = "tracked_product_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "link_do_produktu")
+    @Column(name = "product_url")
     private String url;
 
-    @Column(name = "cena")
+    @Column(name = "price")
     private BigDecimal price;
 
-    @Column(name = "nazwa_produktu")
+    @Column(name = "product_name")
     private String productName;
 
     @ManyToOne
-    @JoinColumn(name = "sklep_id")
+    @JoinColumn(name = "shop_id")
     private Shop shop;
 
 }

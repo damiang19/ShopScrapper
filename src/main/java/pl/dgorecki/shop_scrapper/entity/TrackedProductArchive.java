@@ -14,27 +14,24 @@ import java.time.Instant;
 @ToString
 @EqualsAndHashCode
 @Entity
-@Table(name = "sledzony_produkt_archiwum")
+@Table(name = "tracked_product_archive")
 public class TrackedProductArchive {
 
     @Id
+    @Column(name = "tracked_product_archive_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "sledzony_produkt_id")
+    @JoinColumn(name = "tracked_product_id")
     private TrackedProduct trackedProduct;
 
-    @Column(name = "cena_z_dnia")
-    private Instant date;
+    private Instant created;
 
-    @Column(name = "cena")
+    @Column(name = "price")
     private BigDecimal price;
 
-    @Column(name = "nazwa_produktu")
-    private String productName;
-
     @ManyToOne
-    @JoinColumn(name = "sklep_id")
+    @JoinColumn(name = "shop_id")
     private Shop shop;
 }
