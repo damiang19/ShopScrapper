@@ -14,6 +14,8 @@ import pl.dgorecki.shop_scrapper.service.dto.ShopDTO;
 import pl.dgorecki.shop_scrapper.service.errors.ShopNotFoundException;
 import pl.dgorecki.shop_scrapper.service.mapper.ShopMapper;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class ShopServiceImpl implements ShopService {
@@ -41,6 +43,9 @@ public class ShopServiceImpl implements ShopService {
         return shopMapper.toDto(shopRepository.findByShopUrl(shopUrl)
                 .orElseThrow(() -> new ShopNotFoundException("Given shop does not exist in Database")));
     }
-
-
+    @Override
+    @Transactional
+    public List<ShopDTO> getAllByIds(List<Long> shopIds) {
+        return shopMapper.toDto(shopRepository.findAllById(shopIds));
+    }
 }

@@ -3,7 +3,9 @@ package pl.dgorecki.shop_scrapper.service;
 import pl.dgorecki.shop_scrapper.service.dto.TrackedProductArchiveDTO;
 import pl.dgorecki.shop_scrapper.service.dto.TrackedProductDTO;
 
+import java.util.List;
+
 public interface TrackedProductArchiveService {
 
-    TrackedProductArchiveDTO save(TrackedProductDTO trackedProductDTO);
+    List<TrackedProductArchiveDTO> saveAll(List<TrackedProductDTO> trackedProductDTOList);
 }

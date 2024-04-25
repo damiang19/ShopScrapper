@@ -21,6 +21,8 @@ import pl.dgorecki.shop_scrapper.service.dto.TrackedProductDTO;
 import pl.dgorecki.shop_scrapper.service.mapper.TrackedProductMapper;
 
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -51,6 +53,13 @@ public class TrackedProductServiceImpl implements TrackedProductService {
         ShopDTO shopDTO =  shopService.getByUrl(linkToProduct);
         ScrappedProductData scrappedProductData = scrapperService.scrapActualProductPrice(shopDTO, linkToProduct);
         return save(scrappedProductData, linkToProduct, shopDTO.getId());
+    }
+
+    public void update(List<TrackedProductDTO> trackedProductDTOList) {
+        Set<Long> shopIds = trackedProductDTOList.stream().map(TrackedProductDTO::getShopId).collect(Collectors.toSet());
+        List<ShopDTO> shopDTOList = shopService.getAllByIds(shopIds.stream().toList());
+        // 1. Pobierz wszystkie sklepy
+        // 2.
     }
 
     @Transactional

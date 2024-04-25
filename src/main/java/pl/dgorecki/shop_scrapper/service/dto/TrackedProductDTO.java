@@ -6,6 +6,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import java.math.BigDecimal;
+import java.time.Instant;
 
 @Getter
 @Setter
@@ -24,4 +25,8 @@ public class TrackedProductDTO {
     private Long shopId;
 
     private String shopName;
+
+    private Instant created;
+
+    private Boolean archived;
 }

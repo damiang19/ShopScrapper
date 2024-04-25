@@ -12,6 +12,8 @@ import pl.dgorecki.shop_scrapper.service.dto.TrackedProductDTO;
 import pl.dgorecki.shop_scrapper.service.mapper.TrackedProductArchiveMapper;
 
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @AllArgsConstructor
@@ -22,14 +24,12 @@ public class TrackedProductArchiveServiceImpl implements TrackedProductArchiveSe
     private final Logger log = LoggerFactory.getLogger(getClass());
 
     @Override
-    public TrackedProductArchiveDTO save(TrackedProductDTO trackedProductDTO) {
-        TrackedProductArchiveDTO trackedProductArchiveDTO = new TrackedProductArchiveDTO();
-        trackedProductArchiveDTO.setDate(Instant.now());
-        trackedProductArchiveDTO.setProductName(trackedProductDTO.getProductName());
-        trackedProductArchiveDTO.setUrl(trackedProductDTO.getUrl());
-        trackedProductArchiveDTO.setPrice(trackedProductDTO.getPrice());
-        trackedProductArchiveDTO.setShopId(trackedProductDTO.getShopId());
-        TrackedProductArchive trackedProductArchive = trackedProductArchiveRepository.save(trackedProductArchiveMapper.toEntity(trackedProductArchiveDTO));
-        return trackedProductArchiveMapper.toDto(trackedProductArchive);
+    public List<TrackedProductArchiveDTO> saveAll(List<TrackedProductDTO> trackedProductDTOList) {
+        log.debug("Request to create archived tracked products");
+        List<TrackedProductArchiveDTO> trackedProductArchiveDTOList = new ArrayList<>();
+        trackedProductDTOList.forEach(trackedProductDTO -> trackedProductArchiveDTOList.add(TrackedProductArchiveDTO.from(trackedProductDTO)));
+        List<TrackedProductArchive> listOfTrackedProductsArchives = trackedProductArchiveRepository
+                .saveAll(trackedProductArchiveMapper.toEntity(trackedProductArchiveDTOList));
+        return trackedProductArchiveMapper.toDto(listOfTrackedProductsArchives);
     }
 }

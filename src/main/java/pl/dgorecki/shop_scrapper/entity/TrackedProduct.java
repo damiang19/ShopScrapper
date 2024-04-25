@@ -7,6 +7,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import java.math.BigDecimal;
+import java.time.Instant;
 
 @Getter
 @Setter
@@ -33,5 +34,9 @@ public class TrackedProduct {
     @ManyToOne
     @JoinColumn(name = "shop_id")
     private Shop shop;
+
+    private Instant created;
+
+    private Boolean archived;
 
 }

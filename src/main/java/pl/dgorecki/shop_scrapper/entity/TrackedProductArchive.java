@@ -31,7 +31,4 @@ public class TrackedProductArchive {
     @Column(name = "price")
     private BigDecimal price;
 
-    @ManyToOne
-    @JoinColumn(name = "shop_id")
-    private Shop shop;
 }
