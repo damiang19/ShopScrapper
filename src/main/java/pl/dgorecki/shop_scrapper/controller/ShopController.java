@@ -20,12 +20,10 @@ public class ShopController {
     private final ShopService shopService;
     private final Logger log = LoggerFactory.getLogger(getClass());
 
-
     @PostMapping("/shop")
     public ResponseEntity<ShopDTO> addNewShop(@RequestBody @Valid ShopData shopData) {
         log.debug("REST request to save new shop : {}", shopData);
         ShopDTO persistedShop = shopService.save(shopData);
         return ResponseEntity.status(HttpStatus.CREATED).body(persistedShop);
     }
-
 }

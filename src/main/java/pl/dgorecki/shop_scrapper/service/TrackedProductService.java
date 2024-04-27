@@ -13,6 +13,4 @@ public interface TrackedProductService {
 
     TrackedProductDTO addNewProduct(Shop url);
 
-    List<TrackedProductDTO> findByCriteria(TrackedProductCriteria trackedProductCriteria, Pageable pageable);
-
 }

@@ -15,20 +15,23 @@ import java.util.regex.Pattern;
 public class UrlValidatorServiceImpl implements UrlValidatorService {
 
     private final Logger log = LoggerFactory.getLogger(getClass());
+    private static final Pattern productUrlRegexp = Pattern.compile(UrlRegexp.URL.getValue());
+    private static final Pattern shopUrlRegexp = Pattern.compile(UrlRegexp.SHOP.getValue());
+
 
     @Override
     public String validateUrlFormat(String url) {
-        return extractUrl(url, UrlRegexp.URL).orElseThrow(() -> new InvalidUrlException("Invalid URL format"));
+        return extractUrl(url, productUrlRegexp).orElseThrow(() -> new InvalidUrlException("Invalid URL format"));
     }
 
     @Override
     public String getBaseShopUrl(String url) {
-        return extractUrl(url, UrlRegexp.SHOP).orElseThrow(() -> new InvalidUrlException("URL is not correctly formatted."));
+        return extractUrl(url, shopUrlRegexp).orElseThrow(() -> new InvalidUrlException("URL is not correctly formatted."));
     }
 
 
-    private Optional<String> extractUrl(String url, UrlRegexp urlRegexp) {
-        return Pattern.compile(urlRegexp.getValue())
+    private Optional<String> extractUrl(String url, Pattern pattern) {
+        return pattern
                 .matcher(url)
                 .results()
                 .map(MatchResult::group)

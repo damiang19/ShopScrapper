@@ -20,7 +20,9 @@ import pl.dgorecki.shop_scrapper.service.dto.ShopDTO;
 import pl.dgorecki.shop_scrapper.service.dto.TrackedProductDTO;
 import pl.dgorecki.shop_scrapper.service.mapper.TrackedProductMapper;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -49,8 +51,8 @@ public class TrackedProductServiceImpl implements TrackedProductService {
 
     @Override
     public TrackedProductDTO addNewProduct(Shop url) {
-        String linkToProduct =  urlValidatorService.validateUrlFormat(url.getShopUrl());
-        ShopDTO shopDTO =  shopService.getByUrl(linkToProduct);
+        String linkToProduct = urlValidatorService.validateUrlFormat(url.getShopUrl());
+        ShopDTO shopDTO = shopService.getByUrl(linkToProduct);
         ScrappedProductData scrappedProductData = scrapperService.scrapActualProductPrice(shopDTO, linkToProduct);
         return save(scrappedProductData, linkToProduct, shopDTO.getId());
     }
@@ -58,28 +60,23 @@ public class TrackedProductServiceImpl implements TrackedProductService {
     public void update(List<TrackedProductDTO> trackedProductDTOList) {
         Set<Long> shopIds = trackedProductDTOList.stream().map(TrackedProductDTO::getShopId).collect(Collectors.toSet());
         List<ShopDTO> shopDTOList = shopService.getAllByIds(shopIds.stream().toList());
-        // 1. Pobierz wszystkie sklepy
-        // 2.
-    }
-
-    @Transactional
-    public List<TrackedProductDTO> findByCriteria(TrackedProductCriteria trackedProductCriteria, Pageable pageable){
-        Specification<TrackedProduct> specification = createSpecification(trackedProductCriteria);
-        return trackedProductMapper.toDto(trackedProductRepository.findAll(specification,pageable).getContent());
-    }
-
-
-    protected Specification<TrackedProduct> createSpecification(TrackedProductCriteria trackedProductCriteria){
-        Specification<TrackedProduct> specification = Specification.where(null);
-
-        if(trackedProductCriteria.getProductNameStartsWith() != null){
-            specification = specification.and((root, query, criteriaBuilder) -> {
-                Predicate userName = criteriaBuilder.like(criteriaBuilder.upper(root.get(TrackedProduct_.productName)),
-                        (trackedProductCriteria.getProductNameStartsWith() + "%").toUpperCase());
-                return criteriaBuilder.and(userName);
+        Map<ShopDTO, List<TrackedProductDTO>> shopToTrackedProducts = new HashMap<>();
+        for (ShopDTO shopDTO : shopDTOList) {
+            shopToTrackedProducts.put
+                    (shopDTO, trackedProductDTOList
+                            .stream()
+                            .filter(product -> product.getShopId().equals(shopDTO.getId()))
+                            .collect(Collectors.toList()));
+        }
+        for (Map.Entry<ShopDTO, List<TrackedProductDTO>> entry : shopToTrackedProducts.entrySet()) {
+            ShopDTO shopDTO = entry.getKey();
+            entry.getValue().forEach(product -> {
+                updateProduct();
+                scrapperService.scrapActualProductPrice(shopDTO, product.getUrl());
             });
         }
-        return specification;
     }
+
+
 
 }

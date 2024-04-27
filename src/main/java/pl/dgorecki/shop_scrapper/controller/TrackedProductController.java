@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import pl.dgorecki.shop_scrapper.entity.Shop;
+import pl.dgorecki.shop_scrapper.service.TrackedProductQueryService;
 import pl.dgorecki.shop_scrapper.service.TrackedProductService;
 import pl.dgorecki.shop_scrapper.service.criteria.TrackedProductCriteria;
 import pl.dgorecki.shop_scrapper.service.dto.TrackedProductDTO;
@@ -24,6 +25,7 @@ import java.util.List;
 public class TrackedProductController {
 
     private final TrackedProductService trackedProductService;
+    private final TrackedProductQueryService trackedProductQueryService;
     private final Logger log = LoggerFactory.getLogger(getClass());
 
     @PostMapping("/tracked-product/save")
@@ -35,7 +37,6 @@ public class TrackedProductController {
 
     @GetMapping("/tracked-product")
     public ResponseEntity<List<TrackedProductDTO>> findAll(TrackedProductCriteria trackedProductCriteria, Pageable pageable){
-        return ResponseEntity.status(HttpStatus.CREATED).body(trackedProductService.findByCriteria(trackedProductCriteria,pageable));
+        return ResponseEntity.status(HttpStatus.CREATED).body(trackedProductQueryService.findByCriteria(trackedProductCriteria,pageable));
     }
-
 }
