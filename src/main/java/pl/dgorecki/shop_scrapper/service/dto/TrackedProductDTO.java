@@ -28,5 +28,8 @@ public class TrackedProductDTO {
 
     private Instant created;
 
-    private Boolean archived;
+    public static void updateByActualPrice(TrackedProductDTO trackedProductDTO, ScrappedProductData scrappedProductData) {
+        trackedProductDTO.setPrice(scrappedProductData.getPrice());
+        trackedProductDTO.setCreated(Instant.now());
+    }
 }

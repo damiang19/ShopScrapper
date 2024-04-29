@@ -1,20 +1,14 @@
 package pl.dgorecki.shop_scrapper.service.impl;
 
-import jakarta.persistence.criteria.Predicate;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.dgorecki.shop_scrapper.entity.Shop;
 import pl.dgorecki.shop_scrapper.entity.TrackedProduct;
-import pl.dgorecki.shop_scrapper.entity.TrackedProduct_;
 import pl.dgorecki.shop_scrapper.repository.TrackedProductRepository;
 import pl.dgorecki.shop_scrapper.service.*;
-import pl.dgorecki.shop_scrapper.service.criteria.TrackedProductCriteria;
 import pl.dgorecki.shop_scrapper.service.dto.ScrappedProductData;
 import pl.dgorecki.shop_scrapper.service.dto.ShopDTO;
 import pl.dgorecki.shop_scrapper.service.dto.TrackedProductDTO;
@@ -50,13 +44,15 @@ public class TrackedProductServiceImpl implements TrackedProductService {
     }
 
     @Override
-    public TrackedProductDTO addNewProduct(Shop url) {
-        String linkToProduct = urlValidatorService.validateUrlFormat(url.getShopUrl());
+    @Transactional
+    public TrackedProductDTO addNewProduct(String url) {
+        String linkToProduct = urlValidatorService.validateUrlFormat(url);
         ShopDTO shopDTO = shopService.getByUrl(linkToProduct);
         ScrappedProductData scrappedProductData = scrapperService.scrapActualProductPrice(shopDTO, linkToProduct);
         return save(scrappedProductData, linkToProduct, shopDTO.getId());
     }
 
+    @Transactional
     public void update(List<TrackedProductDTO> trackedProductDTOList) {
         Set<Long> shopIds = trackedProductDTOList.stream().map(TrackedProductDTO::getShopId).collect(Collectors.toSet());
         List<ShopDTO> shopDTOList = shopService.getAllByIds(shopIds.stream().toList());
@@ -71,12 +67,10 @@ public class TrackedProductServiceImpl implements TrackedProductService {
         for (Map.Entry<ShopDTO, List<TrackedProductDTO>> entry : shopToTrackedProducts.entrySet()) {
             ShopDTO shopDTO = entry.getKey();
             entry.getValue().forEach(product -> {
-                updateProduct();
-                scrapperService.scrapActualProductPrice(shopDTO, product.getUrl());
+                ScrappedProductData scrappedProductData = scrapperService.scrapActualProductPrice(shopDTO, product.getUrl());
+                TrackedProductDTO.updateByActualPrice(product, scrappedProductData);
             });
         }
     }
-
-
 
 }

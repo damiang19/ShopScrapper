@@ -37,6 +37,4 @@ public class TrackedProduct {
 
     private Instant created;
 
-    private Boolean archived;
-
 }

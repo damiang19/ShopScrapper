@@ -29,7 +29,6 @@ public class TrackedProductQueryService {
         return trackedProductMapper.toDto(trackedProductRepository.findAll(specification, pageable).getContent());
     }
 
-
     private Specification<TrackedProduct> createSpecification(TrackedProductCriteria trackedProductCriteria) {
         Specification<TrackedProduct> specification = Specification.where(null);
 
@@ -37,6 +36,13 @@ public class TrackedProductQueryService {
             specification = specification.and((root, query, criteriaBuilder) -> {
                 Predicate userName = criteriaBuilder.like(criteriaBuilder.upper(root.get(TrackedProduct_.productName)),
                         (trackedProductCriteria.getProductNameStartsWith() + "%").toUpperCase());
+                return criteriaBuilder.and(userName);
+            });
+        }
+        if (trackedProductCriteria.getCreatedLessThanOrEqual() != null) {
+            specification = specification.and((root, query, criteriaBuilder) -> {
+                Predicate userName = criteriaBuilder.lessThan(root.get(TrackedProduct_.created),
+                        (trackedProductCriteria.getCreatedLessThanOrEqual()));
                 return criteriaBuilder.and(userName);
             });
         }

@@ -11,6 +11,6 @@ import java.util.List;
 public interface TrackedProductService {
     TrackedProductDTO save(ScrappedProductData scrappedData, String url, Long shopId);
 
-    TrackedProductDTO addNewProduct(Shop url);
+    TrackedProductDTO addNewProduct(String url);
 
 }
