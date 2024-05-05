@@ -26,5 +26,4 @@ public class Shop {
 
     private String shopUrl;
 
-
 }

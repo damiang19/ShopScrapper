@@ -13,4 +13,6 @@ public interface TrackedProductService {
 
     TrackedProductDTO addNewProduct(String url);
 
+    void updateProductsByActualPrices(List<TrackedProductDTO> trackedProductDTOList);
+
 }

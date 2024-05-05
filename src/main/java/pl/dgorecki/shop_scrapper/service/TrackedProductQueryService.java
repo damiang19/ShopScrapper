@@ -14,6 +14,7 @@ import pl.dgorecki.shop_scrapper.service.criteria.TrackedProductCriteria;
 import pl.dgorecki.shop_scrapper.service.dto.TrackedProductDTO;
 import pl.dgorecki.shop_scrapper.service.mapper.TrackedProductMapper;
 
+import java.time.Instant;
 import java.util.List;
 
 @Service
@@ -39,10 +40,10 @@ public class TrackedProductQueryService {
                 return criteriaBuilder.and(userName);
             });
         }
-        if (trackedProductCriteria.getCreatedLessThanOrEqual() != null) {
+        if (trackedProductCriteria.getCreatedLessThan() != null) {
             specification = specification.and((root, query, criteriaBuilder) -> {
                 Predicate userName = criteriaBuilder.lessThan(root.get(TrackedProduct_.created),
-                        (trackedProductCriteria.getCreatedLessThanOrEqual()));
+                        (Instant.parse(trackedProductCriteria.getCreatedLessThan())));
                 return criteriaBuilder.and(userName);
             });
         }

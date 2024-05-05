@@ -14,6 +14,7 @@ import pl.dgorecki.shop_scrapper.service.dto.ShopDTO;
 import pl.dgorecki.shop_scrapper.service.dto.TrackedProductDTO;
 import pl.dgorecki.shop_scrapper.service.mapper.TrackedProductMapper;
 
+import java.time.Instant;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -37,6 +38,7 @@ public class TrackedProductServiceImpl implements TrackedProductService {
         TrackedProductDTO trackedProductDTO = new TrackedProductDTO();
         trackedProductDTO.setProductName(scrappedData.getProductName());
         trackedProductDTO.setPrice(scrappedData.getPrice());
+        trackedProductDTO.setCreated(Instant.now());
         trackedProductDTO.setShopId(shopId);
         trackedProductDTO.setUrl(url);
         TrackedProduct trackedProduct = trackedProductRepository.save(trackedProductMapper.toEntity(trackedProductDTO));
@@ -53,7 +55,8 @@ public class TrackedProductServiceImpl implements TrackedProductService {
     }
 
     @Transactional
-    public void update(List<TrackedProductDTO> trackedProductDTOList) {
+    @Override
+    public void updateProductsByActualPrices(List<TrackedProductDTO> trackedProductDTOList) {
         Set<Long> shopIds = trackedProductDTOList.stream().map(TrackedProductDTO::getShopId).collect(Collectors.toSet());
         List<ShopDTO> shopDTOList = shopService.getAllByIds(shopIds.stream().toList());
         Map<ShopDTO, List<TrackedProductDTO>> shopToTrackedProducts = new HashMap<>();
@@ -66,9 +69,11 @@ public class TrackedProductServiceImpl implements TrackedProductService {
         }
         for (Map.Entry<ShopDTO, List<TrackedProductDTO>> entry : shopToTrackedProducts.entrySet()) {
             ShopDTO shopDTO = entry.getKey();
-            entry.getValue().forEach(product -> {
+            List<TrackedProductDTO> trackedProductsByShop = entry.getValue();
+            trackedProductsByShop.forEach(product -> {
                 ScrappedProductData scrappedProductData = scrapperService.scrapActualProductPrice(shopDTO, product.getUrl());
                 TrackedProductDTO.updateByActualPrice(product, scrappedProductData);
+                trackedProductRepository.saveAll(trackedProductMapper.toEntity(trackedProductsByShop));
             });
         }
     }

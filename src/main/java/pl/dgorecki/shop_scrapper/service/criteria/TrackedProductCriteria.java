@@ -9,6 +9,6 @@ import java.time.Instant;
 @Setter
 public class TrackedProductCriteria {
     private String productNameStartsWith;
-    private Instant createdLessThanOrEqual;
+    private String createdLessThan;
     // TODO : IMPLEMENTACJA WCZYTYWANIA DANYCH DLA KAZDEGO SKLEPU : CENA ITD
 }

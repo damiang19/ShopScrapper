@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import pl.dgorecki.shop_scrapper.controller.payload.ShopUrl;
-import pl.dgorecki.shop_scrapper.entity.Shop;
 import pl.dgorecki.shop_scrapper.service.TrackedProductQueryService;
 import pl.dgorecki.shop_scrapper.service.TrackedProductService;
 import pl.dgorecki.shop_scrapper.service.criteria.TrackedProductCriteria;
@@ -32,7 +31,7 @@ public class TrackedProductController {
     @PostMapping("/tracked-product/save")
     public ResponseEntity<TrackedProductDTO> createTrackedProduct(@RequestBody @NonNull ShopUrl shopUrl) {
         log.debug("Request to create new TrackedProduct");
-        TrackedProductDTO trackedProductDTO =  trackedProductService.addNewProduct(shopUrl.url());
+        TrackedProductDTO trackedProductDTO =  trackedProductService.addNewProduct(shopUrl.shopUrl());
         return ResponseEntity.status(HttpStatus.CREATED).body(trackedProductDTO);
     }
 

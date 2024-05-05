@@ -11,6 +11,7 @@ import java.util.List;
 public interface TrackedProductMapper {
 
     @Mapping(source = "shop.id", target = "shopId")
+    @Mapping(source = "shop.shopName", target = "shopName")
     TrackedProductDTO toDto(TrackedProduct trackedProduct);
     @Mapping(source = "shopId", target = "shop")
     TrackedProduct toEntity(TrackedProductDTO trackedProductDTO);
