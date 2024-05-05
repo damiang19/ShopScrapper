@@ -10,5 +10,4 @@ import java.time.Instant;
 public class TrackedProductCriteria {
     private String productNameStartsWith;
     private String createdLessThan;
-    // TODO : IMPLEMENTACJA WCZYTYWANIA DANYCH DLA KAZDEGO SKLEPU : CENA ITD
 }
