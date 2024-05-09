@@ -8,4 +8,8 @@ import java.util.List;
 public interface TrackedProductArchiveService {
 
     List<TrackedProductArchiveDTO> saveAll(List<TrackedProductDTO> trackedProductDTOList);
+
+    List<TrackedProductArchiveDTO> getAllByTrackedProductId(Long id);
+
+    void setArchivesForAllTrackedProducts(List<TrackedProductDTO> trackedProductDTOList);
 }

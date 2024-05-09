@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import pl.dgorecki.shop_scrapper.controller.payload.ShopUrl;
+import pl.dgorecki.shop_scrapper.service.TrackedProductArchiveService;
 import pl.dgorecki.shop_scrapper.service.TrackedProductQueryService;
 import pl.dgorecki.shop_scrapper.service.TrackedProductService;
 import pl.dgorecki.shop_scrapper.service.criteria.TrackedProductCriteria;
@@ -25,6 +26,7 @@ import java.util.List;
 public class TrackedProductController {
 
     private final TrackedProductService trackedProductService;
+    private final TrackedProductArchiveService trackedProductArchiveService;
     private final TrackedProductQueryService trackedProductQueryService;
     private final Logger log = LoggerFactory.getLogger(getClass());
 
@@ -37,6 +39,9 @@ public class TrackedProductController {
 
     @GetMapping("/tracked-product")
     public ResponseEntity<List<TrackedProductDTO>> findAll(TrackedProductCriteria trackedProductCriteria, Pageable pageable){
-        return ResponseEntity.status(HttpStatus.CREATED).body(trackedProductQueryService.findByCriteria(trackedProductCriteria,pageable));
+        log.debug("REST request to get all trackedProducts with criteria : {}", trackedProductCriteria);
+        List<TrackedProductDTO> trackedProductDTOList = trackedProductQueryService.findByCriteria(trackedProductCriteria,pageable);
+        trackedProductArchiveService.setArchivesForAllTrackedProducts(trackedProductDTOList);
+        return ResponseEntity.status(HttpStatus.CREATED).body(trackedProductDTOList);
     }
 }

@@ -7,6 +7,7 @@ import lombok.ToString;
 
 import java.math.BigDecimal;
 import java.time.Instant;
+import java.util.List;
 
 @Getter
 @Setter
@@ -27,6 +28,8 @@ public class TrackedProductDTO {
     private String shopName;
 
     private Instant created;
+
+    private List<TrackedProductArchiveDTO> archives;
 
     public static void updateByActualPrice(TrackedProductDTO trackedProductDTO, ScrappedProductData scrappedProductData) {
         trackedProductDTO.setPrice(scrappedProductData.getPrice());

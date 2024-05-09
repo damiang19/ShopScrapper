@@ -5,7 +5,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import pl.dgorecki.shop_scrapper.entity.Shop;
 import pl.dgorecki.shop_scrapper.entity.TrackedProduct;
 import pl.dgorecki.shop_scrapper.repository.TrackedProductRepository;
 import pl.dgorecki.shop_scrapper.service.*;
