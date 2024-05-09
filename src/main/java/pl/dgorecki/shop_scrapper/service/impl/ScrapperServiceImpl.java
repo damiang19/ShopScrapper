@@ -4,30 +4,29 @@ import lombok.RequiredArgsConstructor;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Attribute;
 import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
 import org.jsoup.parser.Parser;
-import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-import pl.dgorecki.shop_scrapper.entity.Shop;
 import pl.dgorecki.shop_scrapper.enums.UrlRegexp;
 import pl.dgorecki.shop_scrapper.service.ScrapperService;
 import pl.dgorecki.shop_scrapper.service.dto.ScrappedProductData;
 import pl.dgorecki.shop_scrapper.service.dto.ShopDTO;
+import pl.dgorecki.shop_scrapper.utils.RegexMatcher;
 
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.util.List;
 import java.util.Optional;
+import java.util.regex.MatchResult;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class ScrapperServiceImpl implements ScrapperService {
 
     private final Logger log = LoggerFactory.getLogger(getClass());
+    private final static Pattern pattern = Pattern.compile(UrlRegexp.PRICE.getValue());
+
 
     @Override
     public ScrappedProductData scrapActualProductPrice(ShopDTO shopDTO, String url) {
@@ -47,13 +46,9 @@ public class ScrapperServiceImpl implements ScrapperService {
 
     @Override
     public ScrappedProductData downloadProductInfo(Document loadedPage, ShopDTO shopDTO) {
-        Pattern pattern = Pattern.compile(UrlRegexp.PRICE.getValue());
-
-        String productName = loadedPage.getElementsByClass(shopDTO.getProductNameHtmlClass()).text();
-
-//        String t = getProductPrice(loadedPage, shopDTO);
-
-        BigDecimal productPrice = new BigDecimal(loadedPage.getElementsByClass(shopDTO.getPriceHtmlClass()).attr("content"));
+        String productName = getProductName(loadedPage,shopDTO);
+        String price = getProductPrice(loadedPage, shopDTO);
+        BigDecimal productPrice = new BigDecimal(price);
         return new ScrappedProductData(productName, productPrice);
     }
 
@@ -63,11 +58,19 @@ public class ScrapperServiceImpl implements ScrapperService {
                 .get(0).attributes().asList()
                 .stream().map(Attribute::getValue)
                 .filter(s -> s.matches(UrlRegexp.PRICE.getValue())).findFirst()
-                .orElse(loadedPage.getElementsByClass(shopDTO.getProductNameHtmlClass()).text());
+                .orElse(RegexMatcher.filter(loadedPage.getElementsByClass(shopDTO.getPriceHtmlClass()).text(), pattern).orElse(""));
     }
 
     private String getProductName(Document loadedPage, ShopDTO shopDTO) {
-        loadedPage.getElementsByClass("sc-1bker4h-10 kHPtVn").get(0).children().tagName("h2").get(0).text();
-        return null;
+        String title =  loadedPage.getElementsByClass(shopDTO.getProductNameHtmlClass()).text();
+        return title.isEmpty() ? loadedPage.getElementsByClass(shopDTO.getProductNameHtmlClass()).get(0).children().tagName("h2").get(0).text() : title;
+    }
+
+    private Optional<String> extractUrl(String url, Pattern pattern) {
+        return pattern
+                .matcher(url)
+                .results()
+                .map(MatchResult::group)
+                .findFirst();
     }
 }
