@@ -74,6 +74,11 @@
 			<version>6.2.17.Final</version>
 			<scope>provided</scope>
 		</dependency>
+		<dependency>
+			<groupId>org.seleniumhq.selenium</groupId>
+			<artifactId>selenium-java</artifactId>
+			<version>4.20.0</version>
+		</dependency>
 	</dependencies>
 
 	<profiles>

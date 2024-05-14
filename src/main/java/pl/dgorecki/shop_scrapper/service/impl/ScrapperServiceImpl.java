@@ -37,17 +37,26 @@ public class ScrapperServiceImpl implements ScrapperService {
     @Override
     public Document connectToTrackedProductSite(String url) {
         try {
-            return Jsoup.connect(url).userAgent("Mozilla/5.0").ignoreContentType(true)
+            return Jsoup.connect(url).userAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3")
+                    .referrer("http://www.google.com")
+                    .userAgent("Mozilla/5.0")
+                    .header("Accept-Language", "en-US,en;q=0.5")
+                    .timeout(10 * 1000) // timeout w milisekundach
+                    .followRedirects(true)
+                    .ignoreContentType(true)
+                    .ignoreHttpErrors(true)
                     .parser(Parser.xmlParser()).get();
         } catch (IOException connectionException) {
-            throw new RuntimeException("Error - cannot connect with url : " + url);
+            throw new RuntimeException("Error - cannot connect with url : " + connectionException);
         }
     }
 
     @Override
     public ScrappedProductData downloadProductInfo(Document loadedPage, ShopDTO shopDTO) {
-        String productName = getProductName(loadedPage,shopDTO);
+        String productName = getProductName(loadedPage, shopDTO);
         String price = getProductPrice(loadedPage, shopDTO);
+        price = price.replaceAll(" ", "");
+        price = price.replaceAll(",", ".");
         BigDecimal productPrice = new BigDecimal(price);
         return new ScrappedProductData(productName, productPrice);
     }
@@ -62,15 +71,7 @@ public class ScrapperServiceImpl implements ScrapperService {
     }
 
     private String getProductName(Document loadedPage, ShopDTO shopDTO) {
-        String title =  loadedPage.getElementsByClass(shopDTO.getProductNameHtmlClass()).text();
+        String title = loadedPage.getElementsByClass(shopDTO.getProductNameHtmlClass()).text();
         return title.isEmpty() ? loadedPage.getElementsByClass(shopDTO.getProductNameHtmlClass()).get(0).children().tagName("h2").get(0).text() : title;
-    }
-
-    private Optional<String> extractUrl(String url, Pattern pattern) {
-        return pattern
-                .matcher(url)
-                .results()
-                .map(MatchResult::group)
-                .findFirst();
     }
 }
